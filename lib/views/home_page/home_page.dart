@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:tech_jar/models/post_model.dart';
 import 'package:tech_jar/view_models/post_view_model.dart';
+import 'package:tech_jar/views/post_page/post_page.dart';
+import 'package:tech_jar/views/user_page/user_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -15,7 +17,9 @@ class HomePage extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/user');
+              Navigator.push(context, MaterialPageRoute(builder: (_) {
+                return const UserPage();
+              }));
             },
             icon: const Icon(Icons.person),
           ),
@@ -41,10 +45,13 @@ class HomePage extends StatelessWidget {
                   return ListTile(
                     splashColor: Colors.deepPurple,
                     onTap: () {
-                      Navigator.pushNamed(
+                      Navigator.push(
                         context,
-                        '/post',
-                        arguments: snapshot.data![index],
+                        MaterialPageRoute(
+                          builder: (_) => PostPage(
+                            postModel: snapshot.data![index],
+                          ),
+                        ),
                       );
                     },
                     title: Text(snapshot.data![index].title),

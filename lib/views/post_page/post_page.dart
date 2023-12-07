@@ -1,16 +1,45 @@
-/// Displays specific post details including comments too
-///
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tech_jar/models/comment_model.dart';
 import 'package:tech_jar/models/post_model.dart';
+import 'package:tech_jar/providers/post_comments_provider.dart';
+import 'package:tech_jar/providers/user_data_provider.dart';
 import 'package:tech_jar/view_models/post_view_model.dart';
 
-class PostPage extends StatelessWidget {
-  const PostPage({super.key});
+/// Displays specific post details including comments too
+///
+class PostPage extends ConsumerStatefulWidget {
+  final PostModel postModel;
+
+  const PostPage({
+    super.key,
+    required this.postModel,
+  });
+
+  @override
+  ConsumerState<PostPage> createState() => _PostPageState();
+}
+
+class _PostPageState extends ConsumerState<PostPage> {
+  final TextEditingController _commentController = TextEditingController();
+  int totalComments = 0;
+
+  @override
+  void initState() {
+    initializeComments();
+    super.initState();
+  }
+
+  Future<void> initializeComments() async {
+    final allComments =
+        await PostViewModel().getAllCommentsForPost(widget.postModel.id);
+    totalComments = allComments.length;
+    ref.watch(postCommentsProvider.notifier).initializeComments(allComments);
+  }
 
   @override
   Widget build(BuildContext context) {
-    final postModel = ModalRoute.of(context)!.settings.arguments as PostModel;
+    final postComments = ref.watch(postCommentsProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -21,45 +50,36 @@ class PostPage extends StatelessWidget {
           // Post details
           Card(
             child: ListTile(
-              title: Text(postModel.title),
-              subtitle: Text(postModel.body),
+              title: Text(widget.postModel.title),
+              subtitle: Text(widget.postModel.body),
             ),
           ),
 
           // Post comments
-          FutureBuilder<List<CommentModel>>(
-              future: PostViewModel().getAllCommentsForPost(postModel.id),
-              builder: (_, snapshot) {
-                if (snapshot.hasError) {
-                  return const Center(
-                    child: Text('Something went wrong'),
-                  );
-                } else if (snapshot.connectionState ==
-                    ConnectionState.waiting) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-                return Expanded(
-                  child: ListView.builder(
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (context, index) {
-                      return Card(
-                        child: ListTile(
-                          title: Text(snapshot.data![index].name),
-                          subtitle: Text(snapshot.data![index].body),
-                        ),
-                      );
-                    },
+          Expanded(
+            child: ListView.builder(
+              itemCount: postComments.length,
+              itemBuilder: (context, index) {
+                return Card(
+                  child: ListTile(
+                    title: Text(postComments[index].name),
+                    subtitle: Text(postComments[index].body),
                   ),
                 );
-              }),
+              },
+            ),
+          ),
 
           // Commenting area
-          const Card(
+          Card(
             child: ListTile(
               title: Text('Comment'),
               subtitle: TextField(
+                controller: _commentController,
+                onSubmitted: (comment) {
+                  addComment(comment);
+                  _commentController.clear();
+                },
                 decoration: InputDecoration(
                   hintText: 'Write your comment here',
                 ),
@@ -69,5 +89,24 @@ class PostPage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void addComment(String comment) {
+    final userData = ref.watch(userDataProvider);
+    ref.watch(postCommentsProvider.notifier).addComment(
+          CommentModel(
+            postId: widget.postModel.id,
+            id: totalComments + 1,
+            name: userData["name"],
+            email: userData["email"],
+            body: comment,
+          ),
+        );
+  }
+
+  @override
+  void dispose() {
+    _commentController.dispose();
+    super.dispose();
   }
 }
