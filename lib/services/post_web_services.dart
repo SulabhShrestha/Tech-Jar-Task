@@ -15,12 +15,14 @@ class PostWebServices {
     }
   }
 
+  /// Adds new
+
   /// Returning decoded all post's comments json data if the response is successful
   /// which in the in the form of List<dynamic>
   Future<List<dynamic>> getAllCommentsForPost(int postId) async {
     try {
-      final response = await http
-          .get(Uri.parse(Constants().urls.getAllCommentsForPost(postId)));
+      final response =
+          await http.get(Uri.parse(Constants().urls.commentsForPost(postId)));
       return jsonDecode(response.body);
     } catch (e) {
       rethrow; // This will throw the error to the caller

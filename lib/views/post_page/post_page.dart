@@ -4,6 +4,7 @@ import 'package:tech_jar/models/comment_model.dart';
 import 'package:tech_jar/models/post_model.dart';
 import 'package:tech_jar/providers/post_comments_provider.dart';
 import 'package:tech_jar/providers/user_data_provider.dart';
+import 'package:tech_jar/services/comment_view_model.dart';
 import 'package:tech_jar/view_models/post_view_model.dart';
 
 /// Displays specific post details including comments too
@@ -93,15 +94,24 @@ class _PostPageState extends ConsumerState<PostPage> {
 
   void addComment(String comment) {
     final userData = ref.watch(userDataProvider);
-    ref.watch(postCommentsProvider.notifier).addComment(
-          CommentModel(
-            postId: widget.postModel.id,
-            id: totalComments + 1,
-            name: userData["name"],
-            email: userData["email"],
-            body: comment,
-          ),
-        );
+    final commentModel = CommentModel(
+      postId: widget.postModel.id,
+      id: totalComments + 1,
+      name: userData["name"],
+      email: userData["email"],
+      body: comment,
+    );
+
+    try {
+      CommentViewModel().addComment(details: commentModel.toJson());
+      ref.watch(postCommentsProvider.notifier).addComment(commentModel);
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Something went wrong'),
+        ),
+      );
+    }
   }
 
   @override
