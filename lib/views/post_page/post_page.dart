@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tech_jar/models/comment_model.dart';
 import 'package:tech_jar/models/post_model.dart';
+import 'package:tech_jar/providers/all_users_provider.dart';
 import 'package:tech_jar/providers/post_comments_provider.dart';
 import 'package:tech_jar/providers/user_data_provider.dart';
 import 'package:tech_jar/view_models/comment_view_model.dart';
-import 'package:tech_jar/view_models/user_view_model.dart';
 
 /// Displays specific post details including comments too
 ///
@@ -44,6 +44,10 @@ class _PostPageState extends ConsumerState<PostPage> {
         .where((comment) => comment.postId == widget.postModel.id)
         .toList();
 
+    final user = ref.watch(allUsersProvider).allUsers.firstWhere(
+          (user) => user.uid == widget.postModel.userId,
+        );
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Post'),
@@ -51,38 +55,24 @@ class _PostPageState extends ConsumerState<PostPage> {
       body: Column(
         children: [
           // Post details
-          FutureBuilder(
-              future: UserViewModel()
-                  .fetchUserDetails(widget.postModel.userId.toString()),
-              builder: (_, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                } else if (snapshot.hasError) {
-                  return const Center(
-                    child: Text('Something went wrong'),
-                  );
-                }
-                return Card(
-                  child: Column(
-                    children: [
-                      // user profile
-                      ListTile(
-                        leading: CircleAvatar(
-                          child: Text(snapshot.data!["name"].split("").first),
-                        ),
-                        title: Text(snapshot.data!["name"]),
-                        subtitle: Text(snapshot.data!["email"]),
-                      ),
-                      ListTile(
-                        title: Text(widget.postModel.title),
-                        subtitle: Text(widget.postModel.body),
-                      ),
-                    ],
+          Card(
+            child: Column(
+              children: [
+                // user profile
+                ListTile(
+                  leading: CircleAvatar(
+                    child: Text(user.username.split("").first),
                   ),
-                );
-              }),
+                  title: Text(user.username),
+                  subtitle: Text(user.email),
+                ),
+                ListTile(
+                  title: Text(widget.postModel.title),
+                  subtitle: Text(widget.postModel.body),
+                ),
+              ],
+            ),
+          ),
 
           // Post comments from backend default
           Expanded(

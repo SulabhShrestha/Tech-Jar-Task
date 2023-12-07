@@ -35,39 +35,53 @@ class HomePage extends ConsumerWidget {
                 itemCount: snapshot.data!.length,
                 itemBuilder: (_, index) {
                   return Card(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // post added user information
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              const Icon(Icons.person),
-                              Text(_allUsers
-                                  .findUserById(snapshot.data![index].userId)
-                                  .username),
-                            ],
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // post added user information
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                const Icon(Icons.person),
+                                Text(_allUsers
+                                    .findUserById(snapshot.data![index].userId)
+                                    .username),
+                              ],
+                            ),
                           ),
-                        ),
 
-                        ListTile(
-                          splashColor: Colors.deepPurple,
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => PostPage(
-                                  postModel: snapshot.data![index],
+                          ListTile(
+                            splashColor: Colors.deepPurple,
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => PostPage(
+                                    postModel: snapshot.data![index],
+                                  ),
                                 ),
+                              );
+                            },
+                            title: Text(snapshot.data![index].title),
+                            subtitle: RichText(
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              text: TextSpan(
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                ),
+                                text: snapshot.data![index].body,
                               ),
-                            );
-                          },
-                          title: Text(snapshot.data![index].title),
-                          subtitle: Text(snapshot.data![index].body),
-                        ),
-                      ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 },
