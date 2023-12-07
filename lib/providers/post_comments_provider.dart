@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:riverpod/riverpod.dart';
 import 'package:tech_jar/models/comment_model.dart';
 
-/// stores the state of the comments of specific post
+/// stores the state of the comments of all posts
 ///
 
 final postCommentsProvider =
@@ -16,9 +16,5 @@ class PostCommentsProvider extends StateNotifier<List<CommentModel>> {
   void addComment(CommentModel comment) {
     log("adding");
     state = [...state, comment];
-  }
-
-  void initializeComments(List<CommentModel> comments) {
-    state = comments;
   }
 }

@@ -35,7 +35,6 @@ class _PostPageState extends ConsumerState<PostPage> {
     final allComments =
         await PostViewModel().getAllCommentsForPost(widget.postModel.id);
     totalComments = allComments.length;
-    ref.watch(postCommentsProvider.notifier).initializeComments(allComments);
   }
 
   @override
@@ -56,19 +55,43 @@ class _PostPageState extends ConsumerState<PostPage> {
             ),
           ),
 
-          // Post comments
+          // Post comments from backend default
           Expanded(
-            child: ListView.builder(
-              itemCount: postComments.length,
-              itemBuilder: (context, index) {
-                return Card(
-                  child: ListTile(
-                    title: Text(postComments[index].name),
-                    subtitle: Text(postComments[index].body),
-                  ),
-                );
-              },
-            ),
+            child: FutureBuilder<List<CommentModel>>(
+                future:
+                    PostViewModel().getAllCommentsForPost(widget.postModel.id),
+                builder: (_, snapshot) {
+                  if (snapshot.hasError) {
+                    return const Center(
+                      child: Text('Something went wrong'),
+                    );
+                  } else if (snapshot.connectionState ==
+                      ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  return SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        for (var commment in postComments)
+                          Card(
+                            child: ListTile(
+                              title: Text(commment.name),
+                              subtitle: Text(commment.body),
+                            ),
+                          ),
+                        for (var comment in snapshot.data!)
+                          Card(
+                            child: ListTile(
+                              title: Text(comment.name),
+                              subtitle: Text(comment.body),
+                            ),
+                          ),
+                      ],
+                    ),
+                  );
+                }),
           ),
 
           // Commenting area
