@@ -17,4 +17,13 @@ class UserViewModel {
       rethrow;
     }
   }
+
+  Future<Map<String, dynamic>> fetchUserDetails(String uid) async {
+    try {
+      final userDetails = await _userWebServices.fetchUserDetails(uid);
+      return userDetails;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

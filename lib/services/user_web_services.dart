@@ -15,4 +15,20 @@ class UserWebServices {
       rethrow; // This will throw the error to the caller
     }
   }
+
+  Future<Map<String, dynamic>> fetchUserDetails(String uid) async {
+    try {
+      final response = await http.get(
+        Uri.parse("${Constants().urls.allUsers}/$uid"),
+      );
+
+      var data = jsonDecode(response.body);
+      return {
+        'name': data['name'],
+        'email': data['email'],
+      };
+    } catch (e) {
+      rethrow;
+    }
+  }
 }
