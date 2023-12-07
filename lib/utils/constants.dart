@@ -7,4 +7,6 @@ class _Urls {
   String commentsForPost(num postId) => '$allPosts/$postId/comments';
 
   String get allUsers => "https://jsonplaceholder.typicode.com/users";
+
+  String get allAlbums => "https://jsonplaceholder.typicode.com/albums";
 }

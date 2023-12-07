@@ -18,4 +18,14 @@ class AlbumViewModel {
       rethrow;
     }
   }
+
+  // fetch photos
+  Future<List<dynamic>> fetchPhotos(int albumId) async {
+    try {
+      final response = await _albumWebServices.fetchPhotos(albumId);
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }
