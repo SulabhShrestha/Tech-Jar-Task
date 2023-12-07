@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tech_jar/models/todo_model.dart';
+import 'package:tech_jar/providers/todos_provider.dart';
 import 'package:tech_jar/views/todos_page/widgets/todo_item.dart';
 
-class TodosPage extends StatelessWidget {
+class TodosPage extends ConsumerWidget {
   const TodosPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Todos Page'),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          addTodo(context);
+          addTodo(context, ref);
         },
         child: Icon(Icons.add),
       ),
@@ -30,7 +33,7 @@ class TodosPage extends StatelessWidget {
     );
   }
 
-  void addTodo(BuildContext context) {
+  void addTodo(BuildContext context, WidgetRef ref) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -46,6 +49,13 @@ class TodosPage extends StatelessWidget {
           actions: [
             TextButton(
               onPressed: () {
+                ref.watch(todosProvider).addTodo(
+                      TodoModel(
+                        id: DateTime.now().microsecondsSinceEpoch.toString(),
+                        todo: "todo",
+                        completed: false,
+                      ),
+                    );
                 Navigator.of(context).pop(); // Close the dialog
               },
               child: Text("OK"),

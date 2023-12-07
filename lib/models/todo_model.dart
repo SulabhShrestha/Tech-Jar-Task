@@ -1,11 +1,11 @@
 class TodoModel {
+  String id;
+  String todo;
+  bool completed;
+
   TodoModel({
     required this.id,
-    required this.description,
+    required this.todo,
     required this.completed,
   });
-
-  String id;
-  String description;
-  bool completed;
 }
