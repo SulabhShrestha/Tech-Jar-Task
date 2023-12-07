@@ -54,6 +54,18 @@ class PostPage extends StatelessWidget {
                   ),
                 );
               }),
+
+          // Commenting area
+          const Card(
+            child: ListTile(
+              title: Text('Comment'),
+              subtitle: TextField(
+                decoration: InputDecoration(
+                  hintText: 'Write your comment here',
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
