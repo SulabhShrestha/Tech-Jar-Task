@@ -59,6 +59,11 @@ class MyApp extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
           ),
         ),
+        pageTransitionsTheme: const PageTransitionsTheme(
+          builders: <TargetPlatform, OpenUpwardsPageTransitionsBuilder>{
+            TargetPlatform.android: OpenUpwardsPageTransitionsBuilder(),
+          },
+        ),
       ),
       home: const RootPage(),
     );

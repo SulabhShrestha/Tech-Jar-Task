@@ -16,6 +16,7 @@ class AlbumPhotoDisplayingPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Album ${albumModel.id}"),
+        backgroundColor: Colors.blue.shade300,
       ),
       body: FutureBuilder(
         future: AlbumViewModel().fetchPhotos(albumModel.id),
