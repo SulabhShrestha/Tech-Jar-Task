@@ -39,7 +39,10 @@ class _PostPageState extends ConsumerState<PostPage> {
 
   @override
   Widget build(BuildContext context) {
-    final postComments = ref.watch(postCommentsProvider);
+    final postComments = ref
+        .watch(postCommentsProvider)
+        .where((comment) => comment.postId == widget.postModel.id)
+        .toList();
 
     return Scaffold(
       appBar: AppBar(
