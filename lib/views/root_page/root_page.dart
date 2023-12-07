@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:tech_jar/views/album_page/album_page.dart';
 import 'package:tech_jar/views/home_page/home_page.dart';
-import 'package:tech_jar/views/todo_page/todo_page.dart';
+import 'package:tech_jar/views/todos_page/todos_page.dart';
 import 'package:tech_jar/views/user_page/user_page.dart';
 
 /// Hosts all the pages along with bottom navigation bar
@@ -18,7 +18,7 @@ class RootPage extends StatefulWidget {
 class _RootPageState extends State<RootPage> {
   final List<Widget> _pagesList = [
     const HomePage(),
-    const TodoPage(),
+    const TodosPage(),
     const AlbumPage(),
     const UserPage(),
   ];
