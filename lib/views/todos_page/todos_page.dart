@@ -9,6 +9,8 @@ class TodosPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final todos = ref.watch(todosProvider).todos;
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Todos Page'),
@@ -23,9 +25,11 @@ class TodosPage extends ConsumerWidget {
         Text("Today's tasks"),
         Expanded(
           child: ListView.builder(
-            itemCount: 2,
+            itemCount: todos.length,
             itemBuilder: (context, index) {
-              return const TodoItem();
+              return TodoItem(
+                todoModel: todos[index],
+              );
             },
           ),
         ),
@@ -34,12 +38,16 @@ class TodosPage extends ConsumerWidget {
   }
 
   void addTodo(BuildContext context, WidgetRef ref) {
+    final TextEditingController _textEditingController =
+        TextEditingController();
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text("New task"),
           content: TextField(
+            controller: _textEditingController,
             autofocus: true,
             decoration: InputDecoration(
               labelText: 'Task Name',
@@ -52,7 +60,7 @@ class TodosPage extends ConsumerWidget {
                 ref.watch(todosProvider).addTodo(
                       TodoModel(
                         id: DateTime.now().microsecondsSinceEpoch.toString(),
-                        todo: "todo",
+                        todo: _textEditingController.text,
                         completed: false,
                       ),
                     );

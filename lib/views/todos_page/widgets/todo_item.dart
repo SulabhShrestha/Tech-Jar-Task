@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:tech_jar/models/todo_model.dart';
 
 class TodoItem extends StatefulWidget {
-  const TodoItem({super.key});
+  final TodoModel todoModel;
+  const TodoItem({
+    super.key,
+    required this.todoModel,
+  });
 
   @override
   State<TodoItem> createState() => _TodoItemState();
@@ -11,10 +16,16 @@ class _TodoItemState extends State<TodoItem> {
   bool isCompleted = false;
 
   @override
+  void initState() {
+    isCompleted = widget.todoModel.completed;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(
-        'Task name',
+        widget.todoModel.todo,
         style: TextStyle(
           decoration: isCompleted ? TextDecoration.lineThrough : null,
         ),
