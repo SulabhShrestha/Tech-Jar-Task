@@ -5,7 +5,6 @@ import 'package:tech_jar/models/post_model.dart';
 import 'package:tech_jar/providers/post_comments_provider.dart';
 import 'package:tech_jar/providers/user_data_provider.dart';
 import 'package:tech_jar/view_models/comment_view_model.dart';
-import 'package:tech_jar/view_models/post_view_model.dart';
 import 'package:tech_jar/view_models/user_view_model.dart';
 
 /// Displays specific post details including comments too
@@ -34,7 +33,7 @@ class _PostPageState extends ConsumerState<PostPage> {
 
   Future<void> initializeComments() async {
     final allComments =
-        await PostViewModel().getAllCommentsForPost(widget.postModel.id);
+        await CommentViewModel().getAllCommentsForPost(widget.postModel.id);
     totalComments = allComments.length;
   }
 
@@ -88,8 +87,8 @@ class _PostPageState extends ConsumerState<PostPage> {
           // Post comments from backend default
           Expanded(
             child: FutureBuilder<List<CommentModel>>(
-                future:
-                    PostViewModel().getAllCommentsForPost(widget.postModel.id),
+                future: CommentViewModel()
+                    .getAllCommentsForPost(widget.postModel.id),
                 builder: (_, snapshot) {
                   if (snapshot.hasError) {
                     return const Center(
