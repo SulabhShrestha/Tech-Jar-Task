@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:tech_jar/views/home_page/home_page.dart';
-import 'package:tech_jar/views/post_page/post_page.dart';
+
+import 'views/home_page/home_page.dart';
+import 'views/post_page/post_page.dart';
+import 'views/user_page/user_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -38,6 +40,7 @@ class MyApp extends StatelessWidget {
       routes: {
         "/": (_) => const HomePage(),
         "/post": (_) => const PostPage(),
+        "/user": (_) => const UserPage(),
       },
     );
   }

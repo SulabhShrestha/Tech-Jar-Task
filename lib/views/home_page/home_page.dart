@@ -12,6 +12,14 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Tech Jar'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.pushNamed(context, '/user');
+            },
+            icon: const Icon(Icons.person),
+          ),
+        ],
       ),
       body: FutureBuilder<List<PostModel>>(
         future: PostViewModel().getAllPosts(),
