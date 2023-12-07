@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import 'views/home_page/home_page.dart';
+import 'package:tech_jar/views/root_page/root_page.dart';
 
 void main() {
   runApp(
@@ -39,7 +38,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: HomePage(),
+      home: const RootPage(),
     );
   }
 }
