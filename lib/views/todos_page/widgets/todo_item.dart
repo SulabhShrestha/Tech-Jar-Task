@@ -51,6 +51,7 @@ class _TodoItemState extends ConsumerState<TodoItem> {
             onPressed: () {
               showEditAction();
             },
+            color: Colors.blue.shade400,
             icon: Icon(Icons.edit),
           ),
 
@@ -59,6 +60,7 @@ class _TodoItemState extends ConsumerState<TodoItem> {
             onPressed: () {
               showDeleteAction();
             },
+            color: Colors.red.shade400,
             icon: Icon(Icons.delete),
           ),
         ],

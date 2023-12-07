@@ -13,16 +13,16 @@ class TodosPage extends ConsumerWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Todos Page'),
+        title: const Text("Today's tasks"),
+        backgroundColor: Colors.blue.shade300,
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           addTodo(context, ref);
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
       body: Column(children: [
-        Text("Today's tasks"),
         Expanded(
           child: ListView.builder(
             itemCount: todos.length,
@@ -45,11 +45,11 @@ class TodosPage extends ConsumerWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("New task"),
+          title: const Text("New task"),
           content: TextField(
             controller: _textEditingController,
             autofocus: true,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               labelText: 'Task Name',
               hintText: 'eg. Buy milk',
             ),
@@ -66,7 +66,7 @@ class TodosPage extends ConsumerWidget {
                     );
                 Navigator.of(context).pop(); // Close the dialog
               },
-              child: Text("OK"),
+              child: const Text("OK"),
             ),
           ],
         );

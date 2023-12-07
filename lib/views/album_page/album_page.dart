@@ -4,6 +4,7 @@ import 'package:tech_jar/view_models/album_view_model.dart';
 
 import 'pages/album_photo_displaying_page.dart';
 
+/// Displaying album of userid 2 only
 class AlbumPage extends StatelessWidget {
   const AlbumPage({super.key});
 
@@ -12,10 +13,10 @@ class AlbumPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Album Page'),
+        backgroundColor: Colors.blue.shade300,
       ),
       body: Column(
         children: [
-          Text("Albums of user '2'"),
           FutureBuilder<List<AlbumModel>>(
               future: AlbumViewModel().fetchAlbums(),
               builder: (_, snapshot) {
@@ -43,6 +44,7 @@ class AlbumPage extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.all(16.0),
                             child: CircleAvatar(
+                              backgroundColor: Colors.blue.shade100,
                               child: Text(
                                 snapshot.data![index].id.toString(),
                                 style: const TextStyle(

@@ -60,7 +60,7 @@ class _RootPageState extends ConsumerState<RootPage> {
                     padding:
                         const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                     duration: const Duration(milliseconds: 400),
-                    tabBackgroundColor: Colors.yellow,
+                    tabBackgroundColor: Colors.blue.shade300,
                     tabBorderRadius: 14,
                     color: Colors.black,
                     textStyle: const TextStyle(
@@ -70,15 +70,15 @@ class _RootPageState extends ConsumerState<RootPage> {
                     tabActiveBorder: Border.all(),
                     tabs: const [
                       GButton(
-                        icon: Icons.paid_outlined,
+                        icon: Icons.home_outlined,
                         text: 'Home',
                       ),
                       GButton(
-                        icon: Icons.summarize_outlined,
+                        icon: Icons.task_outlined,
                         text: 'Todo',
                       ),
                       GButton(
-                        icon: Icons.inventory_outlined,
+                        icon: Icons.photo_outlined,
                         text: 'Album',
                       ),
                       GButton(

@@ -16,6 +16,7 @@ class HomePage extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Tech Jar'),
+        backgroundColor: Colors.blue.shade300,
       ),
       body: FutureBuilder<List<PostModel>>(
         future: PostViewModel().getAllPosts(),

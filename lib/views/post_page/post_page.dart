@@ -51,30 +51,34 @@ class _PostPageState extends ConsumerState<PostPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Post'),
+        backgroundColor: Colors.blue.shade300,
       ),
       body: Column(
         children: [
           // Post details
-          Card(
-            child: Column(
-              children: [
-                // user profile
-                ListTile(
-                  leading: CircleAvatar(
-                    child: Text(user.username.split("").first),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 16.0),
+            child: Card(
+              child: Column(
+                children: [
+                  // user profile
+                  ListTile(
+                    leading: CircleAvatar(
+                      child: Text(user.username.split("").first),
+                    ),
+                    title: Text(user.username),
+                    subtitle: Text(user.email),
                   ),
-                  title: Text(user.username),
-                  subtitle: Text(user.email),
-                ),
-                ListTile(
-                  title: Text(widget.postModel.title),
-                  subtitle: Text(widget.postModel.body),
-                ),
-              ],
+                  ListTile(
+                    title: Text(widget.postModel.title),
+                    subtitle: Text(widget.postModel.body),
+                  ),
+                ],
+              ),
             ),
           ),
 
-          // Post comments from backend default
+          // Post's comments
           Expanded(
             child: FutureBuilder<List<CommentModel>>(
                 future: CommentViewModel()
@@ -92,12 +96,21 @@ class _PostPageState extends ConsumerState<PostPage> {
                   }
                   return SingleChildScrollView(
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        for (var commment in postComments)
+                        const Padding(
+                          padding: EdgeInsets.only(left: 16.0),
+                          child: Text(
+                            "All comments",
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.w400),
+                          ),
+                        ),
+                        for (var comment in postComments)
                           Card(
                             child: ListTile(
-                              title: Text(commment.name),
-                              subtitle: Text(commment.body),
+                              title: Text(comment.name),
+                              subtitle: Text(comment.body),
                             ),
                           ),
                         for (var comment in snapshot.data!)
@@ -114,17 +127,20 @@ class _PostPageState extends ConsumerState<PostPage> {
           ),
 
           // Commenting area
-          Card(
-            child: ListTile(
-              title: Text('Comment'),
-              subtitle: TextField(
-                controller: _commentController,
-                onSubmitted: (comment) {
-                  addComment(comment);
-                  _commentController.clear();
-                },
-                decoration: InputDecoration(
-                  hintText: 'Write your comment here',
+          Padding(
+            padding: const EdgeInsets.only(top: 4.0),
+            child: Card(
+              child: ListTile(
+                title: Text('Comment'),
+                subtitle: TextField(
+                  controller: _commentController,
+                  onSubmitted: (comment) {
+                    addComment(comment);
+                    _commentController.clear();
+                  },
+                  decoration: InputDecoration(
+                    hintText: 'Write your comment here',
+                  ),
                 ),
               ),
             ),

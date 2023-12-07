@@ -13,7 +13,8 @@ class UserPage extends ConsumerWidget {
     final userData = ref.watch(userDataProvider);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('User'),
+        title: const Text('Profile Page'),
+        backgroundColor: Colors.blue.shade300,
       ),
       body: Column(
         children: [
@@ -29,7 +30,7 @@ class UserPage extends ConsumerWidget {
           // show all user
           Card(
             child: ListTile(
-              title: Text("Show all user"),
+              title: const Text("Show all user"),
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
