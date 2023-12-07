@@ -25,14 +25,25 @@ class HomePage extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           } else {
-            return ListView.builder(
-              itemCount: snapshot.data!.length,
-              itemBuilder: (_, index) {
-                return ListTile(
-                  title: Text(snapshot.data![index].title),
-                  subtitle: Text(snapshot.data![index].body),
-                );
-              },
+            return Scrollbar(
+              child: ListView.builder(
+                scrollDirection: Axis.vertical,
+                itemCount: snapshot.data!.length,
+                itemBuilder: (_, index) {
+                  return ListTile(
+                    splashColor: Colors.deepPurple,
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        '/post',
+                        arguments: snapshot.data![index],
+                      );
+                    },
+                    title: Text(snapshot.data![index].title),
+                    subtitle: Text(snapshot.data![index].body),
+                  );
+                },
+              ),
             );
           }
         },
