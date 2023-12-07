@@ -20,6 +20,12 @@ class TodosNotifier extends ChangeNotifier {
     todo.completed = !todo.completed;
     notifyListeners();
   }
+
+  void update(String newTodo, String todoId) {
+    final todo = todos.firstWhere((todo) => todo.id == todoId);
+    todo.todo = newTodo;
+    notifyListeners();
+  }
 }
 
 final todosProvider = ChangeNotifierProvider<TodosNotifier>((ref) {

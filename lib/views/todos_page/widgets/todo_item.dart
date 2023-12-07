@@ -39,6 +39,7 @@ class _TodoItemState extends ConsumerState<TodoItem> {
           Checkbox(
             value: isCompleted,
             onChanged: (value) {
+              ref.watch(todosProvider).toggle(widget.todoModel.id);
               setState(() {
                 isCompleted = value!;
               });
@@ -93,20 +94,30 @@ class _TodoItemState extends ConsumerState<TodoItem> {
   }
 
   void showEditAction() {
+    final TextEditingController _textEditingController =
+        TextEditingController(text: widget.todoModel.todo);
     showDialog(
         context: context,
         builder: (_) {
           return AlertDialog(
-            title: Text('Edit task'),
+            title: const Text('Edit task'),
             content: TextField(
               autofocus: true,
-              decoration: InputDecoration(
+              controller: _textEditingController,
+              decoration: const InputDecoration(
                 labelText: 'Task Name',
-                hintText: 'eg. Buy milk',
+                hintText: 'New task',
               ),
             ),
             actions: [
-              TextButton(onPressed: () {}, child: Text('OK')),
+              TextButton(
+                  onPressed: () {
+                    ref.watch(todosProvider).update(
+                        _textEditingController.text, widget.todoModel.id);
+
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('OK')),
             ],
           );
         });
