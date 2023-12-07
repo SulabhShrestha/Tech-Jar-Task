@@ -1,29 +1,21 @@
 /// Displays List of posts
 ///
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tech_jar/models/post_model.dart';
+import 'package:tech_jar/providers/all_users_provider.dart';
 import 'package:tech_jar/view_models/post_view_model.dart';
 import 'package:tech_jar/views/post_page/post_page.dart';
-import 'package:tech_jar/views/user_page/user_page.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends ConsumerWidget {
   const HomePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final _allUsers = ref.watch(allUsersProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Tech Jar'),
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (_) {
-                return const UserPage();
-              }));
-            },
-            icon: const Icon(Icons.person),
-          ),
-        ],
       ),
       body: FutureBuilder<List<PostModel>>(
         future: PostViewModel().getAllPosts(),
@@ -42,20 +34,41 @@ class HomePage extends StatelessWidget {
                 scrollDirection: Axis.vertical,
                 itemCount: snapshot.data!.length,
                 itemBuilder: (_, index) {
-                  return ListTile(
-                    splashColor: Colors.deepPurple,
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => PostPage(
-                            postModel: snapshot.data![index],
+                  return Card(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // post added user information
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              const Icon(Icons.person),
+                              Text(_allUsers
+                                  .findUserById(snapshot.data![index].userId)
+                                  .username),
+                            ],
                           ),
                         ),
-                      );
-                    },
-                    title: Text(snapshot.data![index].title),
-                    subtitle: Text(snapshot.data![index].body),
+
+                        ListTile(
+                          splashColor: Colors.deepPurple,
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => PostPage(
+                                  postModel: snapshot.data![index],
+                                ),
+                              ),
+                            );
+                          },
+                          title: Text(snapshot.data![index].title),
+                          subtitle: Text(snapshot.data![index].body),
+                        ),
+                      ],
+                    ),
                   );
                 },
               ),

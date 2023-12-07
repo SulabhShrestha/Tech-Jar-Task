@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:tech_jar/providers/all_users_provider.dart';
+import 'package:tech_jar/view_models/user_view_model.dart';
 import 'package:tech_jar/views/album_page/album_page.dart';
 import 'package:tech_jar/views/home_page/home_page.dart';
 import 'package:tech_jar/views/todos_page/todos_page.dart';
@@ -8,14 +11,14 @@ import 'package:tech_jar/views/user_page/user_page.dart';
 /// Hosts all the pages along with bottom navigation bar
 ///
 
-class RootPage extends StatefulWidget {
+class RootPage extends ConsumerStatefulWidget {
   const RootPage({super.key});
 
   @override
-  State<RootPage> createState() => _RootPageState();
+  ConsumerState<RootPage> createState() => _RootPageState();
 }
 
-class _RootPageState extends State<RootPage> {
+class _RootPageState extends ConsumerState<RootPage> {
   final List<Widget> _pagesList = [
     const HomePage(),
     const TodosPage(),
@@ -24,6 +27,15 @@ class _RootPageState extends State<RootPage> {
   ];
 
   int _selectedIndex = 0;
+
+  @override
+  void initState() {
+    UserViewModel().getAllUser().then((allUsers) {
+      ref.watch(allUsersProvider).allAll(allUsers);
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

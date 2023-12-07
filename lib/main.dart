@@ -21,6 +21,14 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
 
+        textTheme: TextTheme(
+          // list tile heading text
+          bodyLarge: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+
         // TextField
         inputDecorationTheme: InputDecorationTheme(
           contentPadding: const EdgeInsets.all(16),

@@ -15,8 +15,6 @@ class PostWebServices {
     }
   }
 
-  /// Adds new
-
   /// Returning decoded all post's comments json data if the response is successful
   /// which in the in the form of List<dynamic>
   Future<List<dynamic>> getAllCommentsForPost(int postId) async {
