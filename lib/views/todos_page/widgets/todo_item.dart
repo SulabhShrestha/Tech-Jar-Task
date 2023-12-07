@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tech_jar/models/todo_model.dart';
+import 'package:tech_jar/providers/todos_provider.dart';
 
-class TodoItem extends StatefulWidget {
+class TodoItem extends ConsumerStatefulWidget {
   final TodoModel todoModel;
   const TodoItem({
     super.key,
@@ -9,10 +11,10 @@ class TodoItem extends StatefulWidget {
   });
 
   @override
-  State<TodoItem> createState() => _TodoItemState();
+  ConsumerState<TodoItem> createState() => _TodoItemState();
 }
 
-class _TodoItemState extends State<TodoItem> {
+class _TodoItemState extends ConsumerState<TodoItem> {
   bool isCompleted = false;
 
   @override
@@ -70,8 +72,21 @@ class _TodoItemState extends State<TodoItem> {
           return AlertDialog(
             title: Text('Delete task?'),
             actions: [
-              TextButton(onPressed: () {}, child: Text('Yes')),
-              TextButton(onPressed: () {}, child: Text('No')),
+              TextButton(
+                onPressed: () {
+                  ref.watch(todosProvider).removeTodo(
+                        widget.todoModel.id,
+                      );
+                  Navigator.of(context).pop();
+                },
+                child: Text('Yes'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('No'),
+              ),
             ],
           );
         });
