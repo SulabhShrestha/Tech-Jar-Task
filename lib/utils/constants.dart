@@ -5,4 +5,6 @@ class Constants {
 class _Urls {
   String get allPosts => 'https://jsonplaceholder.typicode.com/posts';
   String commentsForPost(num postId) => '$allPosts/$postId/comments';
+
+  String get allUsers => "https://jsonplaceholder.typicode.com/users";
 }

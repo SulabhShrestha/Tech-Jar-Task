@@ -4,7 +4,7 @@ import 'package:tech_jar/models/comment_model.dart';
 import 'package:tech_jar/models/post_model.dart';
 import 'package:tech_jar/providers/post_comments_provider.dart';
 import 'package:tech_jar/providers/user_data_provider.dart';
-import 'package:tech_jar/services/comment_view_model.dart';
+import 'package:tech_jar/view_models/comment_view_model.dart';
 import 'package:tech_jar/view_models/post_view_model.dart';
 
 /// Displays specific post details including comments too
