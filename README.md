@@ -80,6 +80,3 @@ Contains service classes responsible for handling specific functionalities, such
 5. providers
 Contains provider files for Riverpod, playing a key role in state management.
 
-___
-
-### User interfaces
